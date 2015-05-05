@@ -21,7 +21,7 @@ except:
 
 
 
-#config = load_config()
+# config = load_config()
 script_info={}
 script_info['brief_description'] = """Dereplicates sequences based on name"""""
 script_info['script_description'] = """
@@ -48,8 +48,8 @@ def valid_arguments(opts, args):
     else:
         return False
 
-def create_output_name(input_file_name):
-    shortname = re.sub('[.](fasta$|fas$|faa$|fsa$|fa$)','',input_file_name, re.I)
+def create_output_name(input_file):
+    shortname = re.sub('[.](fasta$|fas$|faa$|fsa$|fa$)', '', input_file, re.I)
     output_file_name = shortname + ".unique.fasta"
     return output_file_name
 
@@ -64,7 +64,7 @@ def main(argv):
 
     # initialize the input directory or file
     input_fp = opts.input_fp 
-
+    print 'Reading %s' %input_fp
     #Create output file
     output_fp = create_output_name (input_fp)
     fileout = open (output_fp, 'w')
@@ -80,12 +80,10 @@ def main(argv):
 #        if record.name in fasta_names:
         else:
             removed_counter = removed_counter + 1
-            text='\r   Replicated sequence found. Skipped %d' %removed_counter
+            text = '\r Replicated names found. Skipped %d entries' %removed_counter
             sys.stderr.write(text)
             sys.stderr.flush()
             continue
  
-# the main function of metapaths
-if __name__ == "__main__":
-    main(sys.argv[1:])
-    print('\r')
+# the main function
+main(sys.argv[1:])
